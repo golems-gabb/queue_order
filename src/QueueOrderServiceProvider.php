@@ -5,6 +5,7 @@ namespace Drupal\queue_order;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\queue_order\Queue\QueueWorkerManager;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Class QueueOrderServiceProvider.
@@ -18,8 +19,9 @@ class QueueOrderServiceProvider extends ServiceProviderBase {
    */
   public function alter(ContainerBuilder $container) {
     if ($container->has('plugin.manager.queue_worker')) {
-      $container->getDefinition('plugin.manager.queue_worker')
-        ->setClass(QueueWorkerManager::class);
+      $plugin_manager = $container->getDefinition('plugin.manager.queue_worker');
+      $plugin_manager->setClass(QueueWorkerManager::class);
+      $plugin_manager->addArgument(new Reference('config.factory'));
     }
   }
 

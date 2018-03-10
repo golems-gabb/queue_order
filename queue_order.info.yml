@@ -1,7 +1,7 @@
-name: Queue order [no UI]
+name: "Queue order"
 type: module
-description: "Provide api to control queue order execution"
-package: System utility
+description: "Provide basic functionality to control queue order execution"
+package: "System utility"
 core: 8.x
 dependencies:
-  - drupal:system (>= 8.2.0)
+  - drupal:system

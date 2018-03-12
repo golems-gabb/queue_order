@@ -48,7 +48,8 @@ class QueueWorkerManager extends CoreQueueWorkerManager {
     $weight = $this->config->get('order');
     $weight = empty($weight) ? [] : $weight;
     foreach ($definitions as $key => &$definition) {
-      $definition['weight'] = empty($weight[$key]) ? 0 : intval($weight[$key]);
+      $definition['cron']['weight'] = empty($definition['cron']['weight']) ? 0 : intval($definition['cron']['weight']);
+      $definition['weight'] = empty($weight[$key]) ? $definition['cron']['weight'] : intval($weight[$key]);
     }
     uasort($definitions, [SortArray::class, 'sortByWeightElement']);
     return $definitions;

@@ -44,13 +44,29 @@ class QueueWorkerManager extends CoreQueueWorkerManager {
    * {@inheritdoc}
    */
   public function getDefinitions() {
-    $definitions = parent::getDefinitions();
-    $weight = $this->config->get('order');
-    $weight = empty($weight) ? [] : $weight;
+    return self::sortDefinitions(parent::getDefinitions(), $this->config->get('order') ?: []);
+  }
+
+  /**
+   * Reorder Queue worker definitions.
+   *
+   * @param array $definitions
+   *   Queue worker definitions.
+   * @param array $weight
+   *   Weight overrides.
+   *
+   * @return array
+   *   Reordered Queue worker definitions.
+   */
+  public static function sortDefinitions(array $definitions, array $weight) {
+    // Prepare definitions for sorting.
     foreach ($definitions as $key => &$definition) {
+      // Define default weight value or hint defined weight to the int value.
       $definition['cron']['weight'] = empty($definition['cron']['weight']) ? 0 : intval($definition['cron']['weight']);
+      // Check weight value overrides.
       $definition['weight'] = empty($weight[$key]) ? $definition['cron']['weight'] : intval($weight[$key]);
     }
+    // Sort definitions by weight element.
     uasort($definitions, [SortArray::class, 'sortByWeightElement']);
     return $definitions;
   }

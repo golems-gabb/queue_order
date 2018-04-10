@@ -16,8 +16,6 @@ abstract class WorkerBase extends QueueWorkerBase {
   /**
    * {@inheritdoc}
    */
-  public function processItem($data) {
-    $var = 1 + 1;
-  }
+  public function processItem($data) {}
 
 }

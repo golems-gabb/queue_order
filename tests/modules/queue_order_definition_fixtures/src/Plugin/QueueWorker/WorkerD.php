@@ -2,8 +2,6 @@
 
 namespace Drupal\queue_order_definition_fixtures\Plugin\QueueWorker;
 
-use Drupal\Core\Annotation\QueueWorker;
-
 /**
  * Class WorkerD.
  *

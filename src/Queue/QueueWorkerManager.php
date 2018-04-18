@@ -61,10 +61,16 @@ class QueueWorkerManager extends CoreQueueWorkerManager {
   public static function sortDefinitions(array $definitions, array $weight) {
     // Prepare definitions for sorting.
     foreach ($definitions as $key => &$definition) {
+      $weight = 0;
       // Define default weight value or hint defined weight to the int value.
-      $definition['cron']['weight'] = empty($definition['cron']['weight']) ? 0 : intval($definition['cron']['weight']);
+      if (!empty($definition['cron']['weight'])) {
+        $weight = intval($definition['cron']['weight']);
+      }
+      if (!empty($definition['weight'])) {
+        $weight = intval($definition['weight']);
+      }
       // Check weight value overrides.
-      $definition['weight'] = empty($weight[$key]) ? $definition['cron']['weight'] : intval($weight[$key]);
+      $definition['weight'] = empty($weight[$key]) ? $weight : intval($weight[$key]);
     }
     // Sort definitions by weight element.
     uasort($definitions, [SortArray::class, 'sortByWeightElement']);

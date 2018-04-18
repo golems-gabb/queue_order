@@ -27,4 +27,13 @@ class DefinitionsWithModuleTest extends DefinitionsWithoutModuleTest {
     );
   }
 
+  /**
+   * Test is functionality force creation of `cron` key.
+   */
+  public function testCronKeyExistance() {
+    $definition = $this->QueueWorkerManager
+      ->getDefinition('queue_order_worker_B');
+    $this->assertArrayNotHasKey('cron', $definition);
+  }
+
 }
